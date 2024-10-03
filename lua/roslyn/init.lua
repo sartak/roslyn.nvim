@@ -80,7 +80,7 @@ local function lsp_start(cmd, bufnr, root_dir, roslyn_config, on_init)
             roslyn_config.filewatching
         ),
         ["workspace/projectInitializationComplete"] = function(_, _, ctx)
-            vim.notify("Roslyn project initialization complete", vim.log.levels.INFO)
+            -- vim.notify("Roslyn project initialization complete", vim.log.levels.INFO)
 
             local buffers = vim.lsp.get_buffers_by_client_id(ctx.client_id)
             for _, buf in ipairs(buffers) do
@@ -124,7 +124,7 @@ local function lsp_start(cmd, bufnr, root_dir, roslyn_config, on_init)
         vim.g.roslyn_nvim_selected_solution = nil
         server.stop_server(client_id)
         vim.schedule(function()
-            vim.notify("Roslyn server stopped", vim.log.levels.INFO)
+            -- vim.notify("Roslyn server stopped", vim.log.levels.INFO)
         end)
         if roslyn_config.config.on_exit then
             roslyn_config.config.on_exit(code, signal, client_id)
@@ -245,7 +245,7 @@ end
 ---@param roslyn_config InternalRoslynNvimConfig
 local function start_with_projects(cmd, bufnr, csproj, roslyn_config)
     lsp_start(cmd, bufnr, csproj.directory, roslyn_config, function(client)
-        vim.notify("Initializing Roslyn client for projects", vim.log.levels.INFO)
+        -- vim.notify("Initializing Roslyn client for projects", vim.log.levels.INFO)
         client.notify("project/open", {
             projects = vim.tbl_map(function(file)
                 return vim.uri_from_fname(file)
@@ -276,7 +276,7 @@ function M.setup(config)
     ---@param target string
     local function on_init_sln(target)
         return function(client)
-            vim.notify("Initializing Roslyn client for " .. target, vim.log.levels.INFO)
+            -- vim.notify("Initializing Roslyn client for " .. target, vim.log.levels.INFO)
             client.notify("solution/open", {
                 solution = vim.uri_from_fname(target),
             })
